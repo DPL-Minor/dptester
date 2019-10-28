@@ -7,7 +7,7 @@ class ClampSignalGenerator(threading.Thread):
         threading.Thread.__init__(self)
         self.running = True;
         self.id = id;
-        self.URL = "http://localhost:3000/api/clamps/test" # api endpoint
+        
             
 
 
@@ -30,15 +30,12 @@ class ClampSignalGenerator(threading.Thread):
     def sendAliveSignal(self):
         #send alive signal
         print("alive from {}".format(self.id))
-        try:
-            r = requests.get(url = self.URL, data={id: self.id})
-        except:
-            print("An exception occurred")
+        URL = "http://localhost:3000/api/deployments/signal/" # api endpoint
+        r = requests.post(url = URL, json={"clamp": self.id, "status": "open"})
 
+        
     def sendClosedSignal(self):
         #send closed signal
         print("closed signal sent");
-        try:
-            r = requests.get(url = self.URL, data={id: self.id, status: "closed"})
-        except:
-            print("An exception occurred")
+        URL = "http://localhost:3000/api/deployments/signal/" # api endpoint
+        r = requests.post(url = URL, json={"clamp": self.id, "status": "closed"})
